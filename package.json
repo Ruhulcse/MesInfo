@@ -22,6 +22,8 @@
   },
   "homepage": "https://github.com/Ruhulcse/MesInfo#readme",
   "dependencies": {
+    "bcrypt": "^5.0.0",
+    "bcryptjs": "^2.4.3",
     "chai": "^4.3.0",
     "chai-http": "^4.3.0",
     "dotenv": "^8.2.0",
