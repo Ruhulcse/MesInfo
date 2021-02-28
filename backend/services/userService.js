@@ -1,5 +1,20 @@
 import User from "../models/userModel.js";
 
+const checkAuth = async (data) => {
+  const { email, password } = data;
+  const user = await User.find({ email });
+  if (user && (await user.matchPassword(password))) {
+    const result = res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      isAdmin: user.isAdmin,
+    });
+    return { success: true, body: result };
+  } else {
+    return { message: "Invalid password or email" };
+  }
+};
 const addUser = async (data) => {
   const { name, email, isAdmin, password } = data;
   try {
@@ -19,4 +34,4 @@ const addUser = async (data) => {
     return { success: false, error: error };
   }
 };
-export { addUser };
+export { checkAuth, addUser };
