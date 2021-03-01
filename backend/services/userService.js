@@ -1,20 +1,26 @@
+import asyncHandler from "express-async-handler";
 import User from "../models/userModel.js";
 
-const checkAuth = async (data) => {
+const checkAuth = asyncHandler(async (data) => {
   const { email, password } = data;
-  const user = await User.find({ email });
-  if (user && (await user.matchPassword(password))) {
-    const result = res.json({
-      _id: user._id,
-      name: user.name,
-      email: user.email,
-      isAdmin: user.isAdmin,
-    });
-    return { success: true, body: result };
-  } else {
-    return { message: "Invalid password or email" };
+  const user = await User.findOne({ email });
+  try {
+    if (user && (await user.matchPassword(password))) {
+      const result = {
+        _id: user._id,
+        name: user.name,
+        email: user.email,
+        isAdmin: user.isAdmin,
+      };
+      return { success: true, body: result };
+    } else {
+      throw new Error("Invalid email or password");
+    }
+  } catch (error) {
+    return { success: false, error: error };
   }
-};
+});
+
 const addUser = async (data) => {
   const { name, email, isAdmin, password } = data;
   try {

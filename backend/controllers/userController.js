@@ -1,10 +1,8 @@
 import asyncHandler from "express-async-handler";
-import { addUser } from "../services/userService.js";
+import { checkAuth, addUser } from "../services/userService.js";
 
 //authentication check e.i login
 const authUser = asyncHandler(async (req, res) => {
-  console.log(req.body);
-  console.log("controller hited");
   try {
     const authResult = await checkAuth(req.body);
     console.log(authResult);
